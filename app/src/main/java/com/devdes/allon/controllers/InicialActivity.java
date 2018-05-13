@@ -1,7 +1,9 @@
-package com.devdes.allon;
+package com.devdes.allon.controllers;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.devdes.allon.R;
 
 public class InicialActivity extends AppCompatActivity {
 
