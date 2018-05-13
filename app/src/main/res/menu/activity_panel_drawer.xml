@@ -5,21 +5,25 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_inicio"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Inicio" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_aulas"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Aulas" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_notas"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Notas" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_hora_aulas"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Conteudo das Aulas" />
+        <item
+            android:id="@+id/nav_ajuda"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Ajuda" />
     </group>
 
 </menu>
