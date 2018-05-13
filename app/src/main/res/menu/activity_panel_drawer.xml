@@ -6,23 +6,23 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_inicio"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/ic_school_black_24dp"
             android:title="Inicio" />
         <item
             android:id="@+id/nav_aulas"
-            android:icon="@mipmap/ic_launcher"
-            android:title="Aulas" />
+            android:icon="@drawable/ic_date_range_black_24dp"
+            android:title="Horário das Aulas" />
         <item
             android:id="@+id/nav_notas"
-            android:icon="@mipmap/ic_launcher"
-            android:title="Notas" />
+            android:icon="@drawable/ic_done_all_black_24dp"
+            android:title="Lista de Notas" />
         <item
             android:id="@+id/nav_hora_aulas"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/ic_import_contacts_black_24dp"
             android:title="Conteudo das Aulas" />
         <item
             android:id="@+id/nav_ajuda"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/ic_help_outline_black_24dp"
             android:title="Ajuda" />
     </group>
 
