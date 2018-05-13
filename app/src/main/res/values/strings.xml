@@ -6,4 +6,9 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
+    <string name="nav_inicio">Inicio</string>
+    <string name="nav_hor_aula">Horário das Aulas</string>
+    <string name="nav_lista_notas">Lista de Notas</string>
+    <string name="nav_conteudo_aula">Conteudo das Aulas</string>
+    <string name="nav_ajuda">Ajuda</string>
 </resources>

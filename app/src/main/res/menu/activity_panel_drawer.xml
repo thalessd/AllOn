@@ -7,23 +7,23 @@
         <item
             android:id="@+id/nav_inicio"
             android:icon="@drawable/ic_school_black_24dp"
-            android:title="Inicio" />
+            android:title="@string/nav_inicio" />
         <item
             android:id="@+id/nav_aulas"
             android:icon="@drawable/ic_date_range_black_24dp"
-            android:title="Horário das Aulas" />
+            android:title="@string/nav_hor_aula" />
         <item
             android:id="@+id/nav_notas"
             android:icon="@drawable/ic_done_all_black_24dp"
-            android:title="Lista de Notas" />
+            android:title="@string/nav_lista_notas" />
         <item
             android:id="@+id/nav_hora_aulas"
             android:icon="@drawable/ic_import_contacts_black_24dp"
-            android:title="Conteudo das Aulas" />
+            android:title="@string/nav_conteudo_aula" />
         <item
             android:id="@+id/nav_ajuda"
             android:icon="@drawable/ic_help_outline_black_24dp"
-            android:title="Ajuda" />
+            android:title="@string/nav_ajuda" />
     </group>
 
 </menu>
