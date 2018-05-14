@@ -1,93 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     tools:context=".controllers.LoginActivity">
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/img_bg_login" />
-
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
+        android:layout_height="match_parent">
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="180sp"
-            android:layout_marginBottom="40sp"
-            android:layout_marginTop="60sp"
-            android:src="@drawable/img_all_on_white" />
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/img_bg_login" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="25sp"
-            android:layout_marginRight="25sp"
-            android:gravity="end"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/matriculaLogin"
-                style="@style/EditTextLogin"
+            <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5sp"
-                android:ems="10"
-                android:hint="Matricula"
-                android:inputType="numberSigned" />
-
-            <EditText
-                android:id="@+id/senhaLogin"
-                style="@style/EditTextLogin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15sp"
-                android:ems="10"
-                android:hint="Senha"
-                android:inputType="textPassword" />
+                android:layout_height="180sp"
+                android:layout_marginBottom="40sp"
+                android:layout_marginTop="60sp"
+                android:src="@drawable/img_all_on_white" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15sp"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25sp"
+                android:layout_marginRight="25sp"
+                android:gravity="end"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textView"
+                <ProgressBar
+                    android:id="@+id/loadLogin"
+                    style="?android:attr/progressBarStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Login"
-                    android:textAlignment="center"
-                    android:textAllCaps="true"
-                    android:textColor="@color/icons"
-                    android:textSize="18sp"
-                    android:visibility="invisible" />
+                    android:layout_height="100dp"
+                    android:layout_marginTop="50dp"
+                    android:visibility="gone" />
 
-                <Button
-                    android:id="@+id/btnLogin"
-                    style="@style/BtnLogin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15sp"
-                    android:layout_weight="0"
-                    android:text="Entrar"
-                    android:textSize="17sp" />
+                <LinearLayout
+                    android:id="@+id/llLoginForm"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <EditText
+                        android:id="@+id/matriculaLogin"
+                        style="@style/EditTextLogin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5sp"
+                        android:ems="10"
+                        android:hint="Matricula"
+                        android:inputType="numberSigned"
+                        android:maxLength="8" />
+
+                    <EditText
+                        android:id="@+id/senhaLogin"
+                        style="@style/EditTextLogin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15sp"
+                        android:ems="10"
+                        android:hint="Senha"
+                        android:inputType="textPassword" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="15sp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Login"
+                            android:textAlignment="center"
+                            android:textAllCaps="true"
+                            android:textColor="@color/icons"
+                            android:textSize="18sp"
+                            android:visibility="invisible" />
+
+                        <Button
+                            android:id="@+id/btnLogin"
+                            style="@style/BtnLogin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="15sp"
+                            android:layout_weight="0"
+                            android:text="Entrar"
+                            android:textSize="17sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
-
-    </LinearLayout>
-
-</FrameLayout>
+    </FrameLayout>
+</android.support.design.widget.CoordinatorLayout>

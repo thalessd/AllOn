@@ -86,6 +86,10 @@ public class AlunoOnlineApi {
 
         loginRes = JsonObject.readFrom(respJson);
 
+        if(loginRes.get("codigo").asInt() != 200){
+            return null;
+        }
+
         return new ResponseData.ResLogin(
                 loginRes.get("dado").asObject().get("token").asString(),
                 loginRes.get("dado").asObject().get("identificador").asInt()

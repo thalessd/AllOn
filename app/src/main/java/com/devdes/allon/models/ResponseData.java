@@ -1,7 +1,7 @@
 package com.devdes.allon.models;
 
 public class ResponseData {
-    static class ResLogin {
+    public static class ResLogin {
 
         String token;
         Integer identificador;
