@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.devdes.allon.R;
+import com.devdes.allon.models.AlunoOnlineApi;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -23,12 +24,23 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     public void fazLogin() {
         Intent intent = new Intent(this, PanelActivity.class);
 
+        new Thread() {
+
+            public void run() {
+
+                AlunoOnlineApi alunoOnlineApi = new AlunoOnlineApi();
+
+                alunoOnlineApi.login(17202001, "G3@qwerty5");
+            }
+
+        }.start();
+
         startActivity(intent);
+
     }
 }
