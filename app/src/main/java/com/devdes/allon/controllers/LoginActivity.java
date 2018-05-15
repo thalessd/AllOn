@@ -1,7 +1,11 @@
 package com.devdes.allon.controllers;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,74 +16,40 @@ import android.widget.EditText;
 
 import com.devdes.allon.R;
 import com.devdes.allon.models.AlunoOnlineApi;
-import com.devdes.allon.models.ResponseData;
+import com.devdes.allon.models.ObjetosApi;
+import com.devdes.allon.models.Preferencias;
 
 public class LoginActivity extends AppCompatActivity {
 
     CoordinatorLayout coordinatorLayout;
+    Preferencias preferencias;
 
     // Cria nova task asincrona
-    private class FazerLoginTask extends AsyncTask<Void, Void, ResponseData.ResLogin> {
-
+    private class FazerLoginTask extends AsyncTask<Void, Void, ObjetosApi.RespostaLogin> {
         @Override
         protected void onPreExecute() {
             loginLoad(true);
         }
-
         @Override
-        protected ResponseData.ResLogin doInBackground(Void... voids) {
-
-            ResponseData.ResLogin resLogin;
-            AlunoOnlineApi alunoOnlineApi;
-
-            EditText matriculaLogin;
-            EditText senhaLogin;
-
-            String matricula;
-            String senha;
-
-            Snackbar snackbar;
-
-            // Define a api de login
-            alunoOnlineApi = new AlunoOnlineApi();
-
-            matriculaLogin = findViewById(R.id.matriculaLogin);
-            senhaLogin = findViewById(R.id.senhaLogin);
-
-            matricula = matriculaLogin.getText().toString();
-            senha = senhaLogin.getText().toString();
-
-            resLogin = alunoOnlineApi.login(Integer.parseInt(matricula), senha);
-
-            if(resLogin == null) {
-
-                snackbar = Snackbar.make(
-                        coordinatorLayout,
-                        R.string.login_invalido,
-                        Snackbar.LENGTH_LONG
-                );
-
-                snackbar.show();
-
-                return null;
-            }
-
-            return resLogin;
+        protected ObjetosApi.RespostaLogin doInBackground(Void... voids) {
+            return loginCorpo();
         }
-
-        protected void onPostExecute(ResponseData.ResLogin resLogin) {
-
+        @Override
+        protected void onPostExecute(ObjetosApi.RespostaLogin respostaLogin) {
+            if(respostaLogin != null) loginSucesso(respostaLogin);
             loginLoad(false);
-
-            if(resLogin != null) loginSucesso(resLogin);
         }
-
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        preferencias = new Preferencias();
+
+        paraPainel();
+
 
         Button btnLogin = findViewById(R.id.btnLogin);
 
@@ -93,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    // Funções
     private void fazLogin() {
         Snackbar snackbar = Snackbar.make(
                 coordinatorLayout,
@@ -108,17 +79,52 @@ public class LoginActivity extends AppCompatActivity {
         new FazerLoginTask().execute();
     }
 
-    // Métodos
-    private void loginSucesso(ResponseData.ResLogin resLogin) {
-        Intent intent;
-        /*
-         * CRIANDO PASSAGEM DE PARÂMETROS PARA A TELA DE LOGIN;
-         */
-        intent = new Intent(this, PanelActivity.class);
-        startActivity(intent);
-        finish();
+    private ObjetosApi.RespostaLogin loginCorpo() {
+
+        ObjetosApi.RespostaLogin respostaLogin;
+        AlunoOnlineApi alunoOnlineApi;
+
+        EditText matriculaLogin;
+        EditText senhaLogin;
+
+        String matricula;
+        String senha;
+
+        Snackbar snackbar;
+
+        // Define a api de login
+        alunoOnlineApi = new AlunoOnlineApi();
+
+        matriculaLogin = findViewById(R.id.matriculaLogin);
+        senhaLogin = findViewById(R.id.senhaLogin);
+
+        matricula = matriculaLogin.getText().toString();
+        senha = senhaLogin.getText().toString();
+
+        respostaLogin = alunoOnlineApi.login(Integer.parseInt(matricula), senha);
+
+        if(respostaLogin == null) {
+
+            snackbar = Snackbar.make(
+                    coordinatorLayout,
+                    R.string.login_invalido,
+                    Snackbar.LENGTH_LONG
+            );
+
+            snackbar.show();
+
+            return null;
+        }
+
+        return respostaLogin;
     }
 
+    private void loginSucesso(ObjetosApi.RespostaLogin respostaLogin) {
+        preferencias.salvaLoginResp(respostaLogin, this);
+        paraPainel();
+    }
+
+    // Utils
     private void loginLoad(Boolean load) {
         findViewById(R.id.llLoginForm).setVisibility(load ? View.GONE : View.VISIBLE);
         findViewById(R.id.loadLogin).setVisibility(load ? View.VISIBLE : View.GONE);
@@ -136,5 +142,12 @@ public class LoginActivity extends AppCompatActivity {
                 (matriculaLogin.getText().toString().isEmpty()
                         || senhaLogin.getText().toString().isEmpty());
 
+    }
+
+    private void paraPainel() {
+        if(preferencias.pegaLoginRespSalvado(this) != null){
+            startActivity(new Intent(this, PanelActivity.class));
+            finish();
+        }
     }
 }

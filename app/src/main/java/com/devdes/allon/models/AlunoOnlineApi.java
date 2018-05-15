@@ -2,10 +2,6 @@ package com.devdes.allon.models;
 
 
 import com.eclipsesource.json.JsonObject;
-import com.eclipsesource.json.JsonValue;
-
-import java.io.EOFException;
-import java.io.IOException;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -13,7 +9,6 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import okio.BufferedSink;
 
 public class AlunoOnlineApi {
 
@@ -66,7 +61,7 @@ public class AlunoOnlineApi {
 
     }
 
-    public ResponseData.ResLogin login(Integer matricula, String senha) {
+    public ObjetosApi.RespostaLogin login(Integer matricula, String senha) {
 
         String respJson;
         JsonObject loginReq;
@@ -90,7 +85,7 @@ public class AlunoOnlineApi {
             return null;
         }
 
-        return new ResponseData.ResLogin(
+        return new ObjetosApi.RespostaLogin(
                 loginRes.get("dado").asObject().get("token").asString(),
                 loginRes.get("dado").asObject().get("identificador").asInt()
         );
