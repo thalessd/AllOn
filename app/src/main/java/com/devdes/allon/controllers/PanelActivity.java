@@ -1,5 +1,6 @@
 package com.devdes.allon.controllers;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,9 +15,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.devdes.allon.R;
+import com.devdes.allon.models.ObjetosApi;
 
 public class PanelActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static ObjetosApi.RespostaLogin loginDados;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,8 @@ public class PanelActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        navigationView.setCheckedItem(R.id.nav_inicio);
 
         navigationView.setNavigationItemSelectedListener(this);
     }

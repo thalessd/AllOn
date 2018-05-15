@@ -145,8 +145,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void paraPainel() {
-        if(preferencias.pegaLoginRespSalvado(this) != null){
-            startActivity(new Intent(this, PanelActivity.class));
+        ObjetosApi.RespostaLogin respostaLogin;
+        Intent intent;
+
+        intent = new Intent(this, PanelActivity.class);
+        respostaLogin = preferencias.pegaLoginRespSalvado(this);
+
+        if(respostaLogin != null){
+            startActivity(intent);
             finish();
         }
     }

@@ -19,6 +19,7 @@ public class AlunoOnlineApi {
 
     // Urls Especificas
     private final String URL_API_LOGIN = URL_API_USUARIO_RSA + "/login";
+    private final String URL_API_DADOS_CADASTRAIS = URL_API_USUARIO_RSA_AUTH + "/dados";
 
     // Client
     OkHttpClient client;
@@ -27,7 +28,7 @@ public class AlunoOnlineApi {
         this.client = new OkHttpClient();
     }
 
-    private String requestPost(String url, String json){
+    private String requestPost(String url, String json) {
 
         ResponseBody resBody;
         MediaType JSON;
@@ -89,6 +90,35 @@ public class AlunoOnlineApi {
                 loginRes.get("dado").asObject().get("token").asString(),
                 loginRes.get("dado").asObject().get("identificador").asInt()
         );
+
+    }
+
+    public void dadosCadastrais(ObjetosApi.RespostaLogin respostaLogin) {
+        String respJson;
+
+        JsonObject dadosReq;
+        JsonObject dadosRes;
+
+
+        dadosReq = new JsonObject();
+
+        dadosReq.add("token", respostaLogin.getToken());
+        dadosReq.add("identificador", respostaLogin.getIdentificador());
+
+        respJson = requestPost(URL_API_DADOS_CADASTRAIS, dadosReq.toString());
+
+        if(respJson == null) {
+            return;
+        }
+
+        dadosRes = JsonObject.readFrom(respJson);
+
+        if(dadosRes.get("codigo").asInt() != 200){
+            return;
+        }
+
+        System.out.println(respJson);
+
 
     }
 
