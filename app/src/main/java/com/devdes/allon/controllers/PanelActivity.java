@@ -84,13 +84,10 @@ public class PanelActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         if (id == R.id.nav_inicio) {
-            navigationView.setCheckedItem(R.id.nav_inicio);
             ft.replace(R.id.inputFragment, new HomeScreenFragment());
         } else if (id == R.id.nav_aulas) {
-            navigationView.setCheckedItem(R.id.nav_aulas);
             ft.replace(R.id.inputFragment, new HorarioAulaFragment());
         } else if (id == R.id.nav_notas) {
-            navigationView.setCheckedItem(R.id.nav_notas);
             ft.replace(R.id.inputFragment, new NotasFragment());
         } else if (id == R.id.nav_hora_aulas) {
 
