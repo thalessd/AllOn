@@ -25,7 +25,6 @@
             android:name=".controllers.PanelActivity"
             android:label="@string/title_activity_panel"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".controllers.InicialActivity"/>
     </application>
 
 </manifest>

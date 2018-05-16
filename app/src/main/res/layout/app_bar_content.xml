@@ -8,6 +8,10 @@
     tools:context=".controllers.PanelActivity"
     tools:showIn="@layout/app_bar_panel">
 
-<include layout="@layout/activity_inicial"/>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/inputFragment"
+    android:orientation="vertical" />
 
 </android.support.design.widget.CoordinatorLayout>

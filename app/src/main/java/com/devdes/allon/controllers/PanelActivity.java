@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,8 +21,6 @@ import com.devdes.allon.models.ObjetosApi;
 
 public class PanelActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-    public static ObjetosApi.RespostaLogin loginDados;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +45,11 @@ public class PanelActivity extends AppCompatActivity
 
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
 
         navigationView.setCheckedItem(R.id.nav_inicio);
+
+        this.exibeTela(R.id.nav_inicio);
 
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -66,24 +68,35 @@ public class PanelActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
+        this.exibeTela(item.getItemId());
+
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    public void exibeTela(Integer id){
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
 
         if (id == R.id.nav_inicio) {
-            // Handle the camera action
+            ft.replace(R.id.inputFragment, new HomeScreenFragment());
         } else if (id == R.id.nav_aulas) {
-
+            ft.replace(R.id.inputFragment, new HorarioAulaFragment());
         } else if (id == R.id.nav_notas) {
-
+            ft.replace(R.id.inputFragment, new NotasFragment());
         } else if (id == R.id.nav_hora_aulas) {
 
         } else if (id == R.id.nav_ajuda) {
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ft.addToBackStack(null);
 
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+        ft.commit();
+
     }
 }
