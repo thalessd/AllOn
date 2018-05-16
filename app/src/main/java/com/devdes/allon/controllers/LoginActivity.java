@@ -48,9 +48,6 @@ public class LoginActivity extends AppCompatActivity {
 
         preferencias = new Preferencias();
 
-        paraPainel();
-
-
         Button btnLogin = findViewById(R.id.btnLogin);
 
         coordinatorLayout = findViewById(R.id.coordinatorLayout);
@@ -92,13 +89,16 @@ public class LoginActivity extends AppCompatActivity {
 
         Snackbar snackbar;
 
+
         // Define a api de login
         alunoOnlineApi = new AlunoOnlineApi();
 
         matriculaLogin = findViewById(R.id.matriculaLogin);
+
         senhaLogin = findViewById(R.id.senhaLogin);
 
         matricula = matriculaLogin.getText().toString();
+
         senha = senhaLogin.getText().toString();
 
         respostaLogin = alunoOnlineApi.login(Integer.parseInt(matricula), senha);
@@ -120,8 +120,21 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginSucesso(ObjetosApi.RespostaLogin respostaLogin) {
+        Intent intent;
+
+
         preferencias.salvaLoginResp(respostaLogin, this);
-        paraPainel();
+
+        intent = new Intent(this, PanelActivity.class);
+
+        intent.putExtra(getString(R.string.const_login_token),
+                respostaLogin.getToken());
+        intent.putExtra(getString(R.string.const_login_identificador),
+                respostaLogin.getIdentificador());
+
+        startActivity(intent);
+
+        finish();
     }
 
     // Utils
@@ -142,18 +155,5 @@ public class LoginActivity extends AppCompatActivity {
                 (matriculaLogin.getText().toString().isEmpty()
                         || senhaLogin.getText().toString().isEmpty());
 
-    }
-
-    private void paraPainel() {
-        ObjetosApi.RespostaLogin respostaLogin;
-        Intent intent;
-
-        intent = new Intent(this, PanelActivity.class);
-        respostaLogin = preferencias.pegaLoginRespSalvado(this);
-
-        if(respostaLogin != null){
-            startActivity(intent);
-            finish();
-        }
     }
 }

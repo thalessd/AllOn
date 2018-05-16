@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_login">DADOS_LOGIN_ALUNO</string>
+    <string name="const_login_token">LOGIN_TOKEN</string>
+    <string name="const_login_identificador">LOGIN_IDENTIFICADOR</string>
+</resources>

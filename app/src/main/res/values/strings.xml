@@ -2,13 +2,9 @@
     <string name="app_name">AllOn (Aluno Online)</string>
     <string name="campo_requerido">Campos Requeridos Vazios</string>
     <string name="login_invalido">Usuário ou Senha Inválidos</string>
-    <string name="pref_login">DADOS_LOGIN_ALUNO</string>
     <string name="title_activity_panel">Aluno Online</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
     <string name="nav_inicio">Inicio</string>
     <string name="nav_hor_aula">Horário das Aulas</string>
     <string name="nav_lista_notas">Lista de Notas</string>
