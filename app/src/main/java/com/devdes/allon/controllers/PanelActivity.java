@@ -56,7 +56,7 @@ public class PanelActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -81,12 +81,16 @@ public class PanelActivity extends AppCompatActivity
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
+        NavigationView navigationView = findViewById(R.id.nav_view);
 
         if (id == R.id.nav_inicio) {
+            navigationView.setCheckedItem(R.id.nav_inicio);
             ft.replace(R.id.inputFragment, new HomeScreenFragment());
         } else if (id == R.id.nav_aulas) {
+            navigationView.setCheckedItem(R.id.nav_aulas);
             ft.replace(R.id.inputFragment, new HorarioAulaFragment());
         } else if (id == R.id.nav_notas) {
+            navigationView.setCheckedItem(R.id.nav_notas);
             ft.replace(R.id.inputFragment, new NotasFragment());
         } else if (id == R.id.nav_hora_aulas) {
 
