@@ -191,8 +191,6 @@ public class HomeScreenFragment extends Fragment {
 
         CarregaFotoTask carregaFotoTask;
 
-        cabecalhoLoad(false);
-
         carregaFotoTask = new CarregaFotoTask(urlFotoUsuario);
 
         carregaFotoTask.execute();
