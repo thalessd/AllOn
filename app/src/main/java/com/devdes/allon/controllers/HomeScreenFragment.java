@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.devdes.allon.R;
@@ -26,16 +27,7 @@ import java.net.URL;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link HomeScreenFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link HomeScreenFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class HomeScreenFragment extends Fragment {
-
 
     // Cria nova task asincrona
     private class PegaDadosTask extends AsyncTask<Void, Void, ObjetosApi.RespostaMeusDados> {
@@ -47,94 +39,47 @@ public class HomeScreenFragment extends Fragment {
         }
         @Override
         protected void onPostExecute(ObjetosApi.RespostaMeusDados respostaPegaDados) {
+            cabecalhoLoad(false);
+
             if(respostaPegaDados != null) {
                 pegaDadosSucesso(respostaPegaDados);
             }
         }
     }
 
-    // Cria nova task asincrona
     private class CarregaFotoTask extends AsyncTask<Void, Void, Bitmap> {
+
+        private String urlFotoUsuario;
+
+        public CarregaFotoTask(String urlFotoUsuario) {
+            this.urlFotoUsuario = urlFotoUsuario;
+        }
+
         @Override
         protected void onPreExecute() { pegaDadosInicio(); }
         @Override
         protected Bitmap doInBackground(Void... voids) {
-
-            try {
-                URL url = new URL(urlFotoUsuario);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-                connection.setDoInput(true);
-                connection.connect();
-
-                InputStream input = connection.getInputStream();
-
-                return BitmapFactory.decodeStream(input);
-
-            } catch (Exception e) {
-                return null;
-            }
-
+           return carregaImagemDoServidor(this.urlFotoUsuario);
         }
         @Override
         protected void onPostExecute(Bitmap foto) {
-           if(foto != null) {
-               defineFotoUsuario(foto);
-           }
+            if(foto != null)
+                defineFotoUsuario(foto);
         }
     }
+
+    // Cria nova task asincrona
 
     View view;
-    String urlFotoUsuario;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    public HomeScreenFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeScreenFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HomeScreenFragment newInstance(String param1, String param2) {
-        HomeScreenFragment fragment = new HomeScreenFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    public HomeScreenFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_home_screen, container, false);
-        Button btnMeusDados = view.findViewById(R.id.btnMeusDados);
+        this.view = inflater.inflate(R.layout.fragment_home_screen, container, false);
+        Button btnMeusDados = this.view.findViewById(R.id.btnMeusDados);
 
         new PegaDadosTask().execute();
 
@@ -145,16 +90,21 @@ public class HomeScreenFragment extends Fragment {
             }
         });
 
-        return view;
+        return this.view;
     }
 
-    // Funções
+
+    // Pega dados Funções
+    private void pegaDadosInicio(){
+        // cabecalhoLoad(true);
+    }
 
     private ObjetosApi.RespostaMeusDados pegaDadosCorpo() {
         Bundle bundle = getArguments();
-        AlunoOnlineApi alunoOnlineApi = new AlunoOnlineApi();
-        ObjetosApi.RespostaLogin respostaLogin;
 
+        AlunoOnlineApi alunoOnlineApi = new AlunoOnlineApi();
+
+        ObjetosApi.RespostaLogin respostaLogin;
 
         respostaLogin = new ObjetosApi.RespostaLogin(
                 bundle.getString(getString(R.string.const_login_token)),
@@ -162,12 +112,11 @@ public class HomeScreenFragment extends Fragment {
         );
 
         return alunoOnlineApi.dadosCadastrais(respostaLogin);
-
     }
 
     private void pegaDadosSucesso(ObjetosApi.RespostaMeusDados meusDados){
 
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb;
 
         TextView nomeAluno = view.findViewById(R.id.tvNomeAluno);
         nomeAluno.setText(meusDados.nome);
@@ -179,43 +128,74 @@ public class HomeScreenFragment extends Fragment {
 
         TextView turmaMatricula = view.findViewById(R.id.tvTurmaMatricula);
 
+        sb = new StringBuilder();
+
         sb.append(meusDados.turma);
         sb.append(" - ");
         sb.append(meusDados.matricula);
 
         turmaMatricula.setText(sb.toString());
 
-        urlFotoUsuario = meusDados.urlFoto;
-        new CarregaFotoTask().execute();
+        iniciaCarregamentoFotoUsuario(meusDados.urlFoto);
 
-
-    }
-
-    private void pegaDadosInicio(){
+        alimentaMeusDadosActivity(meusDados);
 
     }
 
+    private void alimentaMeusDadosActivity(ObjetosApi.RespostaMeusDados meusDados) {
 
-    private void defineFotoUsuario(Bitmap foto) {
-        CircleImageView imgUser = view.findViewById(R.id.cimFotoPerfil);
-        imgUser.setImageBitmap(foto);
+    }
+
+    private void cabecalhoLoad(Boolean load){
+        LinearLayout llLoadCabecalho = view.findViewById(R.id.llLoadCabecalho);
+        LinearLayout llViewCabecalho = view.findViewById(R.id.llViewCabecalho);
+
+
+        llLoadCabecalho.setVisibility(load ? View.VISIBLE : View.GONE);
+        llViewCabecalho.setVisibility(load ? View.INVISIBLE : View.VISIBLE);
+
     }
 
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    // Foto do usuário
+    private Bitmap carregaImagemDoServidor(String urlFotoUsuario){
+        try {
+            URL url = new URL(urlFotoUsuario);
+
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            connection.setDoInput(true);
+            connection.connect();
+
+            InputStream input = connection.getInputStream();
+
+            return BitmapFactory.decodeStream(input);
+
+        } catch (Exception e) {
+            return null;
         }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    private void defineFotoUsuario(Bitmap foto) {
+        CircleImageView imgUser = view.findViewById(R.id.cimFotoPerfil);
+
+        if(foto == null){
+            imgUser.setImageResource(R.drawable.img_livros);
+        }
+
+        imgUser.setImageBitmap(foto);
     }
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    private void iniciaCarregamentoFotoUsuario(String urlFotoUsuario){
+
+
+        CarregaFotoTask carregaFotoTask;
+
+        cabecalhoLoad(false);
+
+        carregaFotoTask = new CarregaFotoTask(urlFotoUsuario);
+
+        carregaFotoTask.execute();
     }
+
 }
