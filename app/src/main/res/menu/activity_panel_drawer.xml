@@ -17,7 +17,7 @@
             android:icon="@drawable/ic_done_all_black_24dp"
             android:title="@string/nav_lista_notas" />
         <item
-            android:id="@+id/nav_hora_aulas"
+            android:id="@+id/nav_conteudo_aulas"
             android:icon="@drawable/ic_import_contacts_black_24dp"
             android:title="@string/nav_conteudo_aula" />
         <item

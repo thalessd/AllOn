@@ -10,20 +10,26 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".controllers.SplashScreenActivity"
+        <activity
+            android:name=".controllers.SplashScreenActivity"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".controllers.LoginActivity"
-            android:theme="@style/LoginActivityTheme">
-        </activity>
+            android:theme="@style/LoginActivityTheme" />
         <activity
             android:name=".controllers.PanelActivity"
             android:label="@string/title_activity_panel"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".controllers.AjudaActivity" />
+        <activity
+            android:name=".controllers.MeusDadosActivity"
+            android:label="@string/title_activity_meus_dados"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
