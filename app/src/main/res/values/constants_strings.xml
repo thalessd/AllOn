@@ -3,4 +3,5 @@
     <string name="pref_login">DADOS_LOGIN_ALUNO</string>
     <string name="const_login_token">LOGIN_TOKEN</string>
     <string name="const_login_identificador">LOGIN_IDENTIFICADOR</string>
+    <string name="const_meus_dados">MEUS_DADOS</string>
 </resources>

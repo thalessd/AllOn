@@ -1,5 +1,6 @@
 package com.devdes.allon.controllers;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -21,6 +22,7 @@ import com.devdes.allon.models.AlunoOnlineApi;
 import com.devdes.allon.models.ObjetosApi;
 
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -30,6 +32,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class HomeScreenFragment extends Fragment {
 
     // Cria nova task asincrona
+    @SuppressLint("StaticFieldLeak")
     private class PegaDadosTask extends AsyncTask<Void, Void, ObjetosApi.RespostaMeusDados> {
         @Override
         protected void onPreExecute() { pegaDadosInicio(); }
@@ -39,14 +42,20 @@ public class HomeScreenFragment extends Fragment {
         }
         @Override
         protected void onPostExecute(ObjetosApi.RespostaMeusDados respostaPegaDados) {
+
+            // Finaliza o load no card
             cabecalhoLoad(false);
 
+            // verifica se conseguiu pegar
+            // os dados ou não
             if(respostaPegaDados != null) {
+                cabecalhoNaoCarregado(false);
                 pegaDadosSucesso(respostaPegaDados);
-            }
+            }else cabecalhoNaoCarregado(true);
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class CarregaFotoTask extends AsyncTask<Void, Void, Bitmap> {
 
         private String urlFotoUsuario;
@@ -56,10 +65,10 @@ public class HomeScreenFragment extends Fragment {
         }
 
         @Override
-        protected void onPreExecute() { pegaDadosInicio(); }
+        protected void onPreExecute() {  }
         @Override
         protected Bitmap doInBackground(Void... voids) {
-           return carregaImagemDoServidor(this.urlFotoUsuario);
+            return carregaImagemDoServidor(this.urlFotoUsuario);
         }
         @Override
         protected void onPostExecute(Bitmap foto) {
@@ -70,33 +79,42 @@ public class HomeScreenFragment extends Fragment {
 
     // Cria nova task asincrona
 
-    View view;
+    private View view;
+    private ObjetosApi.RespostaMeusDados meusDados;
 
-    public HomeScreenFragment() { }
+    public HomeScreenFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        this.view = inflater.inflate(R.layout.fragment_home_screen, container, false);
-        Button btnMeusDados = this.view.findViewById(R.id.btnMeusDados);
+        view = inflater.inflate(R.layout.fragment_home_screen, container, false);
 
-        new PegaDadosTask().execute();
+        Button btnMeusDados = view.findViewById(R.id.btnMeusDados);
 
         btnMeusDados.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(view.getContext(), MeusDadosActivity.class));
+
+                Intent intent;
+
+                MeusDadosActivity.meusDados = meusDados;
+
+                intent = new Intent(view.getContext(), MeusDadosActivity.class);
+
+                startActivity(intent);
             }
         });
 
-        return this.view;
+        new PegaDadosTask().execute();
+
+        return view;
     }
 
 
     // Pega dados Funções
     private void pegaDadosInicio(){
-        // cabecalhoLoad(true);
+        cabecalhoLoad(true);
     }
 
     private ObjetosApi.RespostaMeusDados pegaDadosCorpo() {
@@ -138,23 +156,35 @@ public class HomeScreenFragment extends Fragment {
 
         iniciaCarregamentoFotoUsuario(meusDados.urlFoto);
 
-        alimentaMeusDadosActivity(meusDados);
-
-    }
-
-    private void alimentaMeusDadosActivity(ObjetosApi.RespostaMeusDados meusDados) {
+        this.meusDados = meusDados;
 
     }
 
     private void cabecalhoLoad(Boolean load){
-        LinearLayout llLoadCabecalho = view.findViewById(R.id.llLoadCabecalho);
-        LinearLayout llViewCabecalho = view.findViewById(R.id.llViewCabecalho);
+        view.findViewById(R.id.llViewCabecalho).setVisibility(load ? View.INVISIBLE : View.VISIBLE);
+        view.findViewById(R.id.llLoadCabecalho).setVisibility(load ? View.VISIBLE : View.GONE);
+    }
+
+    private void cabecalhoNaoCarregado(Boolean bool){
 
 
-        llLoadCabecalho.setVisibility(load ? View.VISIBLE : View.GONE);
-        llViewCabecalho.setVisibility(load ? View.INVISIBLE : View.VISIBLE);
+
+
+        view.findViewById(R.id.llViewCabecalho).setVisibility(
+                bool ? View.INVISIBLE
+                : view.findViewById(R.id.llViewCabecalho).getVisibility()
+        );
+
+        view.findViewById(R.id.llLoadCabecalho).setVisibility(
+                bool ? View.INVISIBLE
+                : view.findViewById(R.id.llLoadCabecalho).getVisibility()
+        );
+
+        view.findViewById(R.id.llNoConnectCabecalho).setVisibility(bool ? View.VISIBLE : View.INVISIBLE);
 
     }
+
+
 
 
     // Foto do usuário

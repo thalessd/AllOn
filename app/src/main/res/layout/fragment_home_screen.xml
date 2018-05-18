@@ -19,12 +19,37 @@
             app:cardBackgroundColor="@color/icons">
 
             <LinearLayout
-                android:id="@+id/llLoadCabecalho"
+                android:id="@+id/llNoConnectCabecalho"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:visibility="invisible">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="144dp"
+                    android:src="@drawable/ic_cloud_off_black_24dp" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    style="@style/Base.TextAppearance.AppCompat.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Não foi possível buscar os dados solicitados."
+                    android:textAlignment="center"
+                    android:textColor="@color/secondary_text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llLoadCabecalho"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="invisible"
+                android:weightSum="1">
 
                 <ProgressBar
                     android:id="@+id/progressBar"
@@ -38,7 +63,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="invisible"
+                android:weightSum="1">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/cimFotoPerfil"
@@ -90,6 +116,7 @@
 
 
         </android.support.v7.widget.CardView>
+
     </ScrollView>
 
 

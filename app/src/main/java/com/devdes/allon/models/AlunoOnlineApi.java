@@ -57,7 +57,6 @@ public class AlunoOnlineApi {
             return resBody != null ? resBody.string() : null;
 
         }catch (Exception e){
-            System.err.println(e);
             return null;
         }
 

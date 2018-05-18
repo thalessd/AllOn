@@ -45,8 +45,6 @@ public class Preferencias {
             return null;
         }
 
-        System.out.println(token + " " + identificador);
-
         return new ObjetosApi.RespostaLogin(token, identificador);
     }
 }
