@@ -131,6 +131,45 @@ public class AlunoOnlineApi {
         meusDados.turma = cabecalho.get("turma").asString();
         meusDados.matricula = cabecalho.get("matricula").asString();
 
+        JsonObject dadosCadastrais = dadosResObjDados.get("dados_cadastrais").asObject();
+
+        JsonObject pessoal = dadosCadastrais.get("pessoal").asObject();
+
+        meusDados.nomeSocial = pessoal.get("nome_social").asString();
+        meusDados.dataNascimento = pessoal.get("data_nascimento").asString();
+        meusDados.estadoCivil = pessoal.get("estado_civil").asString();
+        meusDados.nomePai = pessoal.get("nome_pai").asString();
+        meusDados.nomeMae = pessoal.get("nome_mae").asString();
+        meusDados.corRaca = pessoal.get("cor_raca").asString();
+        meusDados.profissao = pessoal.get("profissao").asString();
+        meusDados.localTrabalho = pessoal.get("local_trabalho").asString();
+        meusDados.naturalidade = pessoal.get("naturalidade").asString();
+        meusDados.nacionalidade = pessoal.get("nacionalidade").asString();
+
+        JsonObject endereco = dadosCadastrais.get("endereco").asObject();
+
+        meusDados.endereco = endereco.get("endereco").asString();
+        meusDados.numero = endereco.get("numero").asString();
+        meusDados.bairro = endereco.get("bairro").asString();
+        meusDados.complemento = endereco.get("complemento").asString();
+        meusDados.cep = endereco.get("cep").asString();
+        meusDados.cidade = endereco.get("cidade").asString();
+        meusDados.estado = endereco.get("estado").asString();
+
+        JsonObject contato = dadosCadastrais.get("contato").asObject();
+
+        meusDados.telTrabalho = contato.get("tel_trabalho").asString();
+        meusDados.telResidencia = contato.get("tel_residencia").asString();
+        meusDados.telCelular = contato.get("tel_celular").asString();
+        meusDados.telResponsavel = contato.get("tel_responsavel").asString();
+        meusDados.email = contato.get("email").asString();
+
+        JsonObject documento = dadosCadastrais.get("documento").asObject();
+
+        meusDados.RG = documento.get("rg").asString();
+        meusDados.CPF = documento.get("cpf").asString();
+        meusDados.orgExp = documento.get("org_exp").asString();
+
 
         return meusDados;
 

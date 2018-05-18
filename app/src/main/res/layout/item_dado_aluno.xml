@@ -1,35 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="8dp">
 
-    <android.support.v7.widget.CardView
-        style="@style/CardPadrao"
+    <TextView
+        android:id="@+id/itemChave"
+        style="@style/Base.TextAppearance.AppCompat.Title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:text="Chave" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+    <TextView
+        android:id="@+id/itemValor"
+        style="@style/Base.TextAppearance.AppCompat.Subhead"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Valor" />
 
-            <TextView
-                android:id="@+id/itemChave"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:width="1dp"
-                android:text="TextView" />
-
-            <TextView
-                android:id="@+id/itemValor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:width="1dp"
-                android:text="TextView" />
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="?android:attr/listDivider" />
 
 </LinearLayout>
