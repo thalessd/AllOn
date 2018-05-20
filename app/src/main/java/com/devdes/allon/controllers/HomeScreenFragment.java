@@ -1,35 +1,36 @@
 package com.devdes.allon.controllers;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.devdes.allon.R;
 import com.devdes.allon.models.AlunoOnlineApi;
+import com.devdes.allon.models.Informativo;
+import com.devdes.allon.models.InformativoAdapter;
 import com.devdes.allon.models.ObjetosApi;
 
 import java.io.InputStream;
-import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class HomeScreenFragment extends Fragment {
+public class HomeScreenFragment extends Fragment{
 
     // Cria nova task asincrona
     @SuppressLint("StaticFieldLeak")
@@ -78,6 +79,24 @@ public class HomeScreenFragment extends Fragment {
     }
 
     // Cria nova task asincrona
+    @SuppressLint("StaticFieldLeak")
+    private class PegaInformativosTask extends AsyncTask<Void, Void, ArrayList<Informativo>> {
+
+        @Override
+        protected void onPreExecute() {
+            pegaInformativosInicio();
+        }
+
+        @Override
+        protected ArrayList<Informativo> doInBackground(Void... voids) {
+            return pegaInformativosCorpo();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Informativo> informativos) {
+            pegaInformativosSucesso(informativos);
+        }
+    }
 
     private View view;
     private ObjetosApi.RespostaMeusDados meusDados;
@@ -90,7 +109,9 @@ public class HomeScreenFragment extends Fragment {
 
         view = inflater.inflate(R.layout.fragment_home_screen, container, false);
 
+        final SwipeRefreshLayout srl = view.findViewById(R.id.swipeLoad);
         Button btnMeusDados = view.findViewById(R.id.btnMeusDados);
+        Button btnTentarNovamente = view.findViewById(R.id.btnTentarNovamente);
 
         btnMeusDados.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,11 +127,28 @@ public class HomeScreenFragment extends Fragment {
             }
         });
 
+        btnTentarNovamente.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new PegaInformativosTask().execute();
+            }
+        });
+
+        srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new PegaDadosTask().execute();
+                new PegaInformativosTask().execute();
+
+                srl.setRefreshing(false);
+            }
+        });
+
         new PegaDadosTask().execute();
+        new PegaInformativosTask().execute();
 
         return view;
     }
-
 
     // Pega dados Funções
     private void pegaDadosInicio(){
@@ -185,8 +223,6 @@ public class HomeScreenFragment extends Fragment {
     }
 
 
-
-
     // Foto do usuário
     private Bitmap carregaImagemDoServidor(String urlFotoUsuario){
         try {
@@ -225,5 +261,74 @@ public class HomeScreenFragment extends Fragment {
 
         carregaFotoTask.execute();
     }
+
+
+
+    private void pegaInformativosInicio() {
+        mostraLoadInformativo(true);
+    }
+
+    private ArrayList<Informativo> pegaInformativosCorpo() {
+        Bundle bundle = getArguments();
+
+        AlunoOnlineApi alunoOnlineApi = new AlunoOnlineApi();
+
+        ObjetosApi.RespostaLogin respostaLogin;
+
+        respostaLogin = new ObjetosApi.RespostaLogin(
+                bundle.getString(getString(R.string.const_login_token)),
+                bundle.getInt(getString(R.string.const_login_identificador))
+        );
+
+        return alunoOnlineApi.informativos(respostaLogin);
+    }
+
+    private void pegaInformativosSucesso(ArrayList<Informativo> informativos) {
+        RecyclerView homeListaInformativo = view.findViewById(R.id.homeListaInformativo);
+
+        RecyclerView.LayoutManager layout = new LinearLayoutManager(
+                view.getContext(),
+                LinearLayoutManager.VERTICAL,
+                false
+        );
+
+        mostraLoadInformativo(false);
+
+        if(informativos != null) {
+            informativoNaoCarregado(false);
+
+            homeListaInformativo.setAdapter(
+                    new InformativoAdapter(
+                            informativos,
+                            view.getContext()
+                    )
+            );
+
+            homeListaInformativo.setHasFixedSize(true);
+
+            homeListaInformativo.setLayoutManager(layout);
+
+        }else {
+            informativoNaoCarregado(true);
+        }
+
+    }
+
+    private void mostraLoadInformativo(Boolean bool) {
+        view.findViewById(R.id.informativoProgress).setVisibility(bool ? View.VISIBLE : View.GONE);
+        view.findViewById(R.id.homeListaInformativo).setVisibility(bool ? View.GONE : View.VISIBLE);
+        view.findViewById(R.id.erroInformativo).setVisibility(View.GONE);
+    }
+
+    private void informativoNaoCarregado(Boolean bool) {
+
+        view.findViewById(R.id.erroInformativo).setVisibility(bool ? View.VISIBLE : View.GONE);
+
+        view.findViewById(R.id.homeListaInformativo).setVisibility(
+                bool ? View.GONE : View.VISIBLE
+        );
+
+    }
+
 
 }

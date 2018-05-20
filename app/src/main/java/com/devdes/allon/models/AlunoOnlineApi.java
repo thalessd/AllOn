@@ -1,7 +1,11 @@
 package com.devdes.allon.models;
 
 
+import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.JsonValue;
+
+import java.util.ArrayList;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -20,6 +24,7 @@ public class AlunoOnlineApi {
     // Urls Especificas
     private final String URL_API_LOGIN = URL_API_USUARIO_RSA + "/login";
     private final String URL_API_DADOS_CADASTRAIS = URL_API_USUARIO_RSA_AUTH + "/dados";
+    private final String URL_API_INFORMATIVOS = URL_API_USUARIO_RSA_AUTH + "/informativos";
 
     // Client
     OkHttpClient client;
@@ -174,6 +179,65 @@ public class AlunoOnlineApi {
         return meusDados;
 
 
+    }
+
+    public ArrayList<Informativo> informativos(ObjetosApi.RespostaLogin respostaLogin) {
+        String respJson;
+
+        JsonObject dadosReq;
+        JsonObject dadosRes;
+        JsonObject dadosResObjDados;
+        JsonArray tabelaRes;
+        JsonObject linhaTabelaRes;
+        JsonArray urlAnexo;
+
+        ArrayList<String> urlAnexos;
+
+        ArrayList<Informativo> informativos;
+
+
+        dadosReq = new JsonObject();
+        informativos = new ArrayList<>();
+
+        dadosReq.add("token", respostaLogin.getToken());
+        dadosReq.add("identificador", respostaLogin.getIdentificador());
+
+        respJson = requestPost(URL_API_INFORMATIVOS, dadosReq.toString());
+
+        if(respJson == null) {
+            return null;
+        }
+
+        dadosRes = JsonObject.readFrom(respJson);
+
+        if(dadosRes.get("codigo").asInt() != 200){
+            return null;
+        }
+
+        dadosResObjDados = dadosRes.get("dado").asObject();
+
+        tabelaRes = dadosResObjDados.get("tabela").asArray();
+
+        for (JsonValue jv : tabelaRes) {
+            linhaTabelaRes = jv.asObject();
+
+            urlAnexo = linhaTabelaRes.get("anexos").asArray();
+            urlAnexos = new ArrayList<>();
+
+            for (JsonValue link: urlAnexo) {
+                urlAnexos.add(link.asString());
+            }
+
+            informativos.add(new Informativo(
+                    linhaTabelaRes.get("data").asString(),
+                    linhaTabelaRes.get("titulo").asString(),
+                    linhaTabelaRes.get("professor").asString(),
+                    linhaTabelaRes.get("descricao").asString(),
+                    urlAnexos
+            ));
+        }
+
+        return informativos;
     }
 
 
