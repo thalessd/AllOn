@@ -10,7 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -100,6 +102,7 @@ public class HomeScreenFragment extends Fragment{
 
     private View view;
     private ObjetosApi.RespostaMeusDados meusDados;
+    private ArrayList<Informativo> informativosGlob;
 
     public HomeScreenFragment() {}
 
@@ -205,9 +208,6 @@ public class HomeScreenFragment extends Fragment{
 
     private void cabecalhoNaoCarregado(Boolean bool){
 
-
-
-
         view.findViewById(R.id.llViewCabecalho).setVisibility(
                 bool ? View.INVISIBLE
                 : view.findViewById(R.id.llViewCabecalho).getVisibility()
@@ -262,8 +262,6 @@ public class HomeScreenFragment extends Fragment{
         carregaFotoTask.execute();
     }
 
-
-
     private void pegaInformativosInicio() {
         mostraLoadInformativo(true);
     }
@@ -284,7 +282,7 @@ public class HomeScreenFragment extends Fragment{
     }
 
     private void pegaInformativosSucesso(ArrayList<Informativo> informativos) {
-        RecyclerView homeListaInformativo = view.findViewById(R.id.homeListaInformativo);
+        final RecyclerView homeListaInformativo = view.findViewById(R.id.homeListaInformativo);
 
         RecyclerView.LayoutManager layout = new LinearLayoutManager(
                 view.getContext(),
@@ -295,6 +293,8 @@ public class HomeScreenFragment extends Fragment{
         mostraLoadInformativo(false);
 
         if(informativos != null) {
+            informativosGlob = informativos;
+
             informativoNaoCarregado(false);
 
             homeListaInformativo.setAdapter(
@@ -307,6 +307,8 @@ public class HomeScreenFragment extends Fragment{
             homeListaInformativo.setHasFixedSize(true);
 
             homeListaInformativo.setLayoutManager(layout);
+
+
 
         }else {
             informativoNaoCarregado(true);

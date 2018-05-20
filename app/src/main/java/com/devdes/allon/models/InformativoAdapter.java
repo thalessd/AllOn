@@ -26,16 +26,18 @@ public class InformativoAdapter extends RecyclerView.Adapter {
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.item_informativo, parent, false);
 
-        return new InformativoHolder(view);
+        return new InformativoHolder(view, context);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         InformativoHolder viewHolder = (InformativoHolder) holder;
 
-        Informativo informativo = informativos.get(position);
+        final Informativo informativo = informativos.get(position);
 
         Boolean auxBool;
+
+        viewHolder.informativo = informativos.get(position);
 
         if(position > 0){
             auxBool = informativos.get(position - 1).getData()
