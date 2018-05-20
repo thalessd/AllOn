@@ -29,6 +29,7 @@
             android:foregroundGravity="bottom"
             app:headerLayout="@layout/app_bar_header"
             app:menu="@menu/activity_panel_drawer"
+            app:itemBackground="@color/primary"
             app:itemTextAppearance="@style/TextAppearance.AppCompat.Button"
             app:itemTextColor="@color/icons"
             app:itemIconTint="@color/icons"/>

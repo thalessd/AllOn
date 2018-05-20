@@ -1,6 +1,7 @@
 package com.devdes.allon.controllers;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -13,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.devdes.allon.R;
+import com.devdes.allon.models.Preferencias;
 
 public class PanelActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -110,7 +112,12 @@ public class PanelActivity extends AppCompatActivity
         } else if (id == R.id.nav_conteudo_aulas) {
             ft.replace(R.id.inputFragment, new ConteudoAulaFragment());
         } else if (id == R.id.nav_ajuda) {
-
+            startActivity(new Intent(this, AjudaActivity.class));
+        } else if (id == R.id.nav_sair) {
+            Preferencias preferencias = new Preferencias();
+            preferencias.limpaLoginResp(this);
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
         }
 
         ft.addToBackStack(null);

@@ -26,6 +26,23 @@ public class Preferencias {
 
     }
 
+    public void limpaLoginResp(Activity activity) {
+        SharedPreferences sharedPreferences;
+        SharedPreferences.Editor editor;
+
+
+        sharedPreferences = activity.getSharedPreferences(
+                activity.getString(R.string.pref_login),
+                Context.MODE_PRIVATE
+        );
+
+        editor = sharedPreferences.edit();
+
+        editor.clear();
+
+        editor.apply();
+    }
+
     public ObjetosApi.RespostaLogin pegaLoginRespSalvado(Activity activity) {
 
         SharedPreferences sharedPreferences;

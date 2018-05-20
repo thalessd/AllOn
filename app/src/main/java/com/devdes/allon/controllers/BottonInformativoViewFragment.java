@@ -106,6 +106,7 @@ public class BottonInformativoViewFragment extends Fragment {
         TextView infoViewData = view.findViewById(R.id.infoViewData);
         TextView infoViewTitulo = view.findViewById(R.id.infoViewTitulo);
         TextView infoViewDescricao = view.findViewById(R.id.infoViewDescricao);
+        TextView infoViewTxAnexo = view.findViewById(R.id.infoViewTxAnexo);
         RecyclerView rvListaArquivo = view.findViewById(R.id.rvListaArquivo);
 
         RecyclerView.LayoutManager layout = new LinearLayoutManager(
@@ -119,8 +120,13 @@ public class BottonInformativoViewFragment extends Fragment {
         infoViewTitulo.setText(informativo.getTitulo());
         infoViewDescricao.setText(informativo.getDescricao());
 
-        rvListaArquivo.setAdapter(new ItemDownloadAdapter(informativo.getAnexos(), view.getContext()));
-        rvListaArquivo.setLayoutManager(layout);
+        if(informativo.getAnexos().size() > 0) {
+            rvListaArquivo.setAdapter(new ItemDownloadAdapter(informativo.getAnexos(), view.getContext()));
+            rvListaArquivo.setLayoutManager(layout);
+        }else {
+            infoViewTxAnexo.setText("Sem Anexos");
+        }
+
 
 
         return view;

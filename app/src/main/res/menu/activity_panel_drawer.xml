@@ -20,10 +20,18 @@
             android:id="@+id/nav_conteudo_aulas"
             android:icon="@drawable/ic_import_contacts_black_24dp"
             android:title="@string/nav_conteudo_aula" />
-        <item
-            android:id="@+id/nav_ajuda"
-            android:icon="@drawable/ic_help_outline_black_24dp"
-            android:title="@string/nav_ajuda" />
+
+        <group android:id="@+id/gpApp" android:checkableBehavior="single">
+            <item
+                android:id="@+id/nav_ajuda"
+                android:icon="@drawable/ic_help_outline_black_24dp"
+                android:title="@string/nav_ajuda" />
+            <item
+                android:id="@+id/nav_sair"
+                android:icon="@drawable/ic_exit_to_app_black_24dp"
+                android:title="@string/nav_sair" />
+        </group>
+
     </group>
 
 </menu>

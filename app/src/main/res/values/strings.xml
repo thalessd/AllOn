@@ -10,6 +10,7 @@
     <string name="nav_lista_notas">Lista de Notas</string>
     <string name="nav_conteudo_aula">Conteudo das Aulas</string>
     <string name="nav_ajuda">Ajuda</string>
+    <string name="nav_sair">Sair</string>
     <string name="title_activity_meus_dados">Meus Dados</string>
 
     <!-- TODO: Remove or change this placeholder text -->

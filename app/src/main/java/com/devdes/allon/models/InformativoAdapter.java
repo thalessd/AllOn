@@ -39,6 +39,12 @@ public class InformativoAdapter extends RecyclerView.Adapter {
 
         viewHolder.informativo = informativos.get(position);
 
+
+        viewHolder.anexoIcon.setVisibility(
+                informativo.getAnexos().size() <= 0 ? View.GONE : View.VISIBLE
+        );
+
+
         if(position > 0){
             auxBool = informativos.get(position - 1).getData()
                     .equals(informativos.get(position).getData());

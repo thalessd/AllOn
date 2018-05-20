@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,6 +24,8 @@ public class InformativoHolder extends RecyclerView.ViewHolder {
 
     final CardView card;
     final LinearLayout dataDivider;
+
+    final ImageView anexoIcon;
 
     public Informativo informativo;
 
@@ -46,6 +49,7 @@ public class InformativoHolder extends RecyclerView.ViewHolder {
         titulo = itemView.findViewById(R.id.informativoTitulo);
         card = itemView.findViewById(R.id.informativoCard);
         dataDivider = itemView.findViewById(R.id.informativoDataDivider);
+        anexoIcon = itemView.findViewById(R.id.informativoAnexo);
 
 
         card.setOnClickListener(new View.OnClickListener() {
