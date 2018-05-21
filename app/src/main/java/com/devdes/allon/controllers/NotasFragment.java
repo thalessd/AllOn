@@ -43,6 +43,7 @@ public class NotasFragment extends Fragment {
     }
 
     View view;
+    Integer tentativas = 0;
 
     public NotasFragment() {}
 
@@ -91,9 +92,17 @@ public class NotasFragment extends Fragment {
         mostraLoad(false);
 
         if(notas == null) {
+            if(tentativas < 5) {
+                tentativas++;
+                new PegaNotaTask().execute();
+                return;
+            }
+
             mostraTentarNovamente();
             return;
         }
+
+        tentativas = 0;
 
         RecyclerView.LayoutManager layout = new LinearLayoutManager(
                 view.getContext(),

@@ -12,6 +12,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".controllers.SplashScreenActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,14 +21,20 @@
             </intent-filter>
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".controllers.LoginActivity"
             android:theme="@style/LoginActivityTheme" />
         <activity
+            android:screenOrientation="portrait"
             android:name=".controllers.PanelActivity"
             android:label="@string/title_activity_panel"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".controllers.AjudaActivity" />
         <activity
+            android:screenOrientation="portrait"
+            android:name=".controllers.AjudaActivity"
+            android:label="@string/nav_ajuda"/>
+        <activity
+            android:screenOrientation="portrait"
             android:name=".controllers.MeusDadosActivity"
             android:label="@string/title_activity_meus_dados"
             android:theme="@style/AppTheme.NoActionBar"/>

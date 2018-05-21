@@ -104,6 +104,8 @@ public class HomeScreenFragment extends Fragment{
     private ObjetosApi.RespostaMeusDados meusDados;
     private ArrayList<Informativo> informativosGlob;
 
+    private Integer contador = 0;
+
     public HomeScreenFragment() {}
 
     @Override
@@ -262,6 +264,7 @@ public class HomeScreenFragment extends Fragment{
         carregaFotoTask.execute();
     }
 
+    // Informativos
     private void pegaInformativosInicio() {
         mostraLoadInformativo(true);
     }
@@ -294,6 +297,7 @@ public class HomeScreenFragment extends Fragment{
 
         if(informativos != null) {
             informativosGlob = informativos;
+            contador = 0;
 
             informativoNaoCarregado(false);
 
@@ -311,6 +315,13 @@ public class HomeScreenFragment extends Fragment{
 
 
         }else {
+
+            if(contador < 5) {
+                contador++;
+                new PegaInformativosTask().execute();
+                return;
+            }
+
             informativoNaoCarregado(true);
         }
 
