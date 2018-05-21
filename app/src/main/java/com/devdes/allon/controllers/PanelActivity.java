@@ -76,6 +76,7 @@ public class PanelActivity extends AppCompatActivity
 
     public void exibeTela(Integer id){
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Bundle bundle = new Bundle();
@@ -104,13 +105,17 @@ public class PanelActivity extends AppCompatActivity
 
 
         if (id == R.id.nav_inicio) {
+            toolbar.setTitle("Aluno Online");
             ft.replace(R.id.inputFragment, homeScreenFragment);
         } else if (id == R.id.nav_aulas) {
-            ft.replace(R.id.inputFragment, new HorarioAulaFragment());
+            toolbar.setTitle("Horário de Aulas");
+            ft.replace(R.id.inputFragment, horarioAulaFragment);
         } else if (id == R.id.nav_notas) {
-            ft.replace(R.id.inputFragment, new NotasFragment());
+            toolbar.setTitle("Notas");
+            ft.replace(R.id.inputFragment, notasFragment);
         } else if (id == R.id.nav_conteudo_aulas) {
-            ft.replace(R.id.inputFragment, new ConteudoAulaFragment());
+            toolbar.setTitle("Conteudo das Aulas");
+            ft.replace(R.id.inputFragment, conteudoAulaFragment);
         } else if (id == R.id.nav_ajuda) {
             startActivity(new Intent(this, AjudaActivity.class));
         } else if (id == R.id.nav_sair) {

@@ -25,9 +25,10 @@ public class AlunoOnlineApi {
     private final String URL_API_LOGIN = URL_API_USUARIO_RSA + "/login";
     private final String URL_API_DADOS_CADASTRAIS = URL_API_USUARIO_RSA_AUTH + "/dados";
     private final String URL_API_INFORMATIVOS = URL_API_USUARIO_RSA_AUTH + "/informativos";
+    private final String URL_API_NOTAS = URL_API_USUARIO_RSA_AUTH + "/diario";
 
     // Client
-    OkHttpClient client;
+    private OkHttpClient client;
 
     public AlunoOnlineApi() {
         this.client = new OkHttpClient();
@@ -238,6 +239,81 @@ public class AlunoOnlineApi {
         }
 
         return informativos;
+    }
+
+    public ArrayList<Nota> notas (ObjetosApi.RespostaLogin respostaLogin) {
+        String respJson;
+
+        JsonObject dadosReq;
+        JsonObject dadosRes;
+
+        JsonObject corpo;
+        JsonArray tabela;
+        JsonObject itemTabela;
+
+        ArrayList<Nota> notas;
+        Nota nota;
+
+        dadosReq = new JsonObject();
+        notas = new ArrayList<>();
+
+        dadosReq.add("token", respostaLogin.getToken());
+        dadosReq.add("identificador", respostaLogin.getIdentificador());
+
+        respJson = requestPost(URL_API_NOTAS, dadosReq.toString());
+
+        if (respJson == null) {
+            return null;
+        }
+
+        dadosRes = JsonObject.readFrom(respJson);
+
+        if (dadosRes.get("codigo").asInt() != 200) {
+            return null;
+        }
+
+        corpo = dadosRes.get("dado").asObject();
+
+        tabela = corpo.get("tabela").asArray();
+
+
+        for (JsonValue t : tabela) {
+            itemTabela = t.asObject();
+            nota = new Nota();
+
+            nota.setCodigo(itemTabela.get("codigo").asInt());
+
+            nota.setDisciplina(itemTabela.get("disciplina").asString());
+
+            try { nota.setPrimeiraNota(itemTabela.get("nt1").asDouble()); }
+            catch (Exception e){ nota.setPrimeiraNota(null);}
+
+            try { nota.setSegundaNota(itemTabela.get("nt2").asDouble()); }
+            catch (Exception e){ nota.setSegundaNota(null);}
+
+            try { nota.setTerceiraNota(itemTabela.get("nt3").asDouble()); }
+            catch (Exception e){ nota.setTerceiraNota(null);}
+
+            try { nota.setMediaAtual(itemTabela.get("fd").asDouble()); }
+            catch (Exception e){ nota.setMediaAtual(null);}
+
+            try { nota.setMedia(itemTabela.get("m").asDouble()); }
+            catch (Exception e){ nota.setMedia(null);}
+
+            try { nota.setProvaFinalNota(itemTabela.get("pf").asDouble()); }
+            catch (Exception e){ nota.setProvaFinalNota(null);}
+
+            try { nota.setQuantidadeFalta(itemTabela.get("mf").asInt()); }
+            catch (Exception e){ nota.setQuantidadeFalta(null);}
+
+            try { nota.setFaltaPercentual(itemTabela.get("falta_percentual").asInt()); }
+            catch (Exception e){ nota.setFaltaPercentual(null);}
+
+            notas.add(nota);
+
+        }
+
+        return notas;
     }
 
 

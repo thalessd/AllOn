@@ -44,7 +44,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Não foi possível buscar os dados solicitados."
+                        android:text="@string/erro_dados_solicitados"
                         android:textAlignment="center"
                         android:textColor="@color/secondary_text" />
                 </LinearLayout>
