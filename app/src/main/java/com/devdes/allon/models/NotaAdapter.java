@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.devdes.allon.R;
 
@@ -58,10 +59,52 @@ public class NotaAdapter extends RecyclerView.Adapter {
         viewHolder.qtdFalta.setText(qtdFalta != null ? qtdFalta.toString() : ph);
         viewHolder.faltaPercent.setText(faltaPercent != null ? faltaPercent.toString() + "%" : ph);
 
+        // Tratamentos de Cores;
+        viewHolder.notaUm.setTextColor(corNota(notaUm));
+        viewHolder.notaDois.setTextColor(corNota(notaDois));
+        viewHolder.notaTres.setTextColor(corNota(notaTres));
+
+        viewHolder.mediaAtual.setTextColor(corNota(mediaAtual));
+        viewHolder.mediaFinal.setTextColor(corNota(mediaFinal));
+
+        viewHolder.faltaPercent.setTextColor(corFalta(faltaPercent));
+
     }
 
     @Override
     public int getItemCount() {
         return notas.size();
+    }
+
+    private Integer corNota(Double nota) {
+
+        Integer corNota = context.getResources().getColor(R.color.primary_text);
+
+        if(nota == null) { return corNota; }
+
+        if(nota < 7.0) {
+            corNota = context.getResources().getColor(R.color.red_fail);
+        }
+        else if (nota == 10.0) {
+            corNota = context.getResources().getColor(R.color.green_success);
+        }
+
+        return corNota;
+    }
+
+    private Integer corFalta(Integer faltaPercent) {
+
+        Integer corFalta = context.getResources().getColor(R.color.primary_text);
+
+        if(faltaPercent == null) { return corFalta; }
+
+        if(faltaPercent > 25) {
+            corFalta = context.getResources().getColor(R.color.red_fail);
+        }
+        else if (faltaPercent == 0) {
+            corFalta = context.getResources().getColor(R.color.green_success);
+        }
+
+        return corFalta;
     }
 }

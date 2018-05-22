@@ -10,5 +10,6 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
     <color name="background">#f5f5f5</color>
-    <color name="green_success">#4caf50</color>
+    <color name="green_success">#388e3c</color>
+    <color name="red_fail">#c62828</color>
 </resources>
