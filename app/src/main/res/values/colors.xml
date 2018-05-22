@@ -10,4 +10,5 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
     <color name="background">#f5f5f5</color>
+    <color name="green_success">#4caf50</color>
 </resources>
