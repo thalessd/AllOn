@@ -5,6 +5,7 @@ import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 
 import okhttp3.MediaType;
@@ -26,9 +27,11 @@ public class AlunoOnlineApi {
     private final String URL_API_DADOS_CADASTRAIS = URL_API_USUARIO_RSA_AUTH + "/dados";
     private final String URL_API_INFORMATIVOS = URL_API_USUARIO_RSA_AUTH + "/informativos";
     private final String URL_API_NOTAS = URL_API_USUARIO_RSA_AUTH + "/diario";
+    private final String URL_API_HORARIO = URL_API_USUARIO_RSA_AUTH + "/horarioaula";
 
     // Client
     private OkHttpClient client;
+
 
     public AlunoOnlineApi() {
         this.client = new OkHttpClient();
@@ -241,7 +244,7 @@ public class AlunoOnlineApi {
         return informativos;
     }
 
-    public ArrayList<Nota> notas (ObjetosApi.RespostaLogin respostaLogin) {
+    public ArrayList<Nota> notas(ObjetosApi.RespostaLogin respostaLogin) {
         String respJson;
 
         JsonObject dadosReq;
@@ -314,6 +317,94 @@ public class AlunoOnlineApi {
         }
 
         return notas;
+    }
+
+    public ArrayList<Horario> horarios(ObjetosApi.RespostaLogin respostaLogin) {
+        String respJson;
+
+        JsonObject dadosReq;
+        JsonObject dadosRes;
+
+        JsonObject corpo;
+        JsonObject quadro;
+
+
+        JsonArray hora;
+        JsonArray aula;
+        ArrayList<JsonValue> horaSeparada;
+        ArrayList<JsonValue> materia;
+
+        Horario horario;
+        Horario.Hora horaAula;
+
+        String auxStr;
+
+        String[] diasSemana = new String[]{"Segunda", "Terça", "Quarta",
+                "Quinta", "Sexta", "Sábado", "Domingo"};
+
+        ArrayList<Horario> horarios;
+
+        dadosReq = new JsonObject();
+        horarios = new ArrayList<>();
+        horaSeparada = new ArrayList<>();
+
+        dadosReq.add("token", respostaLogin.getToken());
+        dadosReq.add("identificador", respostaLogin.getIdentificador());
+
+        respJson = requestPost(URL_API_HORARIO, dadosReq.toString());
+
+        if (respJson == null) {
+            return null;
+        }
+
+        dadosRes = JsonObject.readFrom(respJson);
+
+        if (dadosRes.get("codigo").asInt() != 200) {
+            return null;
+        }
+
+        corpo = dadosRes.get("dado").asObject();
+
+        quadro = corpo.get("tabela").asObject();
+
+        hora = quadro.get("horario").asArray();
+
+        for (JsonValue h: hora) {
+            horaSeparada.add(h);
+        }
+
+        for(String d : diasSemana) {
+            auxStr = d;
+            d = Normalizer.normalize(d, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+            d = d.toLowerCase();
+
+            aula = quadro.get(d).asArray();
+            materia = new ArrayList<>();
+            horario = new Horario();
+            horaAula = horario.getHora();
+
+            for (JsonValue a: aula) {
+                materia.add(a);
+            }
+
+            horario.setNomeDiaSemana(auxStr);
+
+            horario.setPrimeiraAula(materia.get(0).asString());
+            horario.setSegundaAula(materia.get(1).asString());
+            horario.setTerceiraAula(materia.get(2).asString());
+            horario.setQuartaAula(materia.get(3).asString());
+
+            horaAula.setPrimeiraAula(horaSeparada.get(0).asString());
+            horaAula.setSegundaAula(horaSeparada.get(1).asString());
+            horaAula.setTerceiraAula(horaSeparada.get(2).asString());
+            horaAula.setQuartaAula(horaSeparada.get(3).asString());
+
+            horario.setHora(horaAula);
+
+            horarios.add(horario);
+        }
+
+        return horarios;
     }
 
 

@@ -1,24 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
     tools:context=".controllers.AjudaActivity">
 
-    <TextView
-        style="@style/Base.TextAppearance.AppCompat.Display1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="By. Thales Carvalho" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
 
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0"
-        style="@style/Base.TextAppearance.AppCompat.Medium"
-        android:text="Ciências da Computação - 2017.2" />
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-</LinearLayout>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </android.support.design.widget.AppBarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_dark_plus"
+                style="@style/Base.TextAppearance.AppCompat.Large"
+                android:text="By. Thales Carvalho"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_dark_plus"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:text="Ciências da Computação - 2017.2"/>
+
+            <View
+                android:id="@+id/divider8"
+                android:layout_width="50dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_height="3dp"
+                android:background="?android:attr/listDivider" />
+            <TextView
+                android:id="@+id/versaoApp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary_text"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textStyle="bold"
+                android:text="Versão: 0.0.0"/>
+            <View
+                android:id="@+id/divider9"
+                android:layout_width="50dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_height="3dp"
+                android:background="?android:attr/listDivider" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/accent"
+                android:textStyle="bold"
+                style="@style/Base.TextAppearance.AppCompat.Medium"
+                android:text="Dúvidas, Sugestões e Idéias"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/accent"
+                android:textIsSelectable="true"
+                android:layout_marginTop="4dp"
+                android:textStyle="bold"
+                style="@style/Base.TextAppearance.AppCompat.Small"
+                android:text="WPP: 89 99988 9460"/>
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+</android.support.design.widget.CoordinatorLayout>

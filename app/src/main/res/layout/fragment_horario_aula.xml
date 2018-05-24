@@ -5,6 +5,52 @@
     android:layout_height="match_parent"
     tools:context=".controllers.HorarioAulaFragment">
 
-    <include layout="@layout/component_em_breve"/>
+    <LinearLayout
+        android:id="@+id/horarioTentarNovamente"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="invisible">
 
+        <ImageView
+            android:id="@+id/imageView6"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_cloud_off_black_24dp" />
+
+        <TextView
+            android:id="@+id/textView6"
+            style="@style/Base.TextAppearance.AppCompat.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/erro_dados_solicitados"
+            android:textAlignment="center"
+            android:textColor="@color/secondary_text" />
+
+        <Button
+            android:id="@+id/btnHorTentarNovamente"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="8dp"
+            android:text="Tentar Novamente" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/horarioLoad"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:visibility="visible"
+        android:layout_gravity="center"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvHorario"
+        android:layout_width="match_parent"
+        android:visibility="invisible"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
 </FrameLayout>

@@ -12,6 +12,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="wrap_content"
@@ -97,12 +98,12 @@
                         <Button
                             android:id="@+id/btnLogin"
                             style="@style/BtnLogin"
-                            android:clickable="true"
-                            android:focusable="true"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="15sp"
                             android:layout_weight="0"
+                            android:clickable="true"
+                            android:focusable="true"
                             android:text="Entrar"
                             android:textSize="17sp" />
                     </LinearLayout>
@@ -111,5 +112,6 @@
             </LinearLayout>
 
         </LinearLayout>
+
     </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

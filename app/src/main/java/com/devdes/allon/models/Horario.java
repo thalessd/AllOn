@@ -50,6 +50,10 @@ public class Horario {
 
     private Hora hora;
 
+    public Horario() {
+        hora = new Hora();
+    }
+
     public String getNomeDiaSemana() {
         return nomeDiaSemana;
     }

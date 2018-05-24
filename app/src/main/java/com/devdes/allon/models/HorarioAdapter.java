@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import com.devdes.allon.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class HorarioAdapter extends RecyclerView.Adapter {
 
@@ -34,6 +36,20 @@ public class HorarioAdapter extends RecyclerView.Adapter {
 
         final Horario horario = horarios.get(position);
         final Horario.Hora hora = horario.getHora();
+        final String strDefault = "N/A";
+        Calendar c = Calendar.getInstance();
+
+        if(horario.getPrimeiraAula().equals(""))
+            horario.setPrimeiraAula(strDefault);
+
+        if(horario.getSegundaAula().equals(""))
+            horario.setSegundaAula(strDefault);
+
+        if(horario.getTerceiraAula().equals(""))
+            horario.setTerceiraAula(strDefault);
+
+        if(horario.getQuartaAula().equals(""))
+            horario.setQuartaAula(strDefault);
 
         viewHolder.diaSemana.setText(horario.getNomeDiaSemana());
 
@@ -46,6 +62,14 @@ public class HorarioAdapter extends RecyclerView.Adapter {
         viewHolder.segHora.setText(hora.getSegundaAula());
         viewHolder.tercHora.setText(hora.getTerceiraAula());
         viewHolder.quarHora.setText(hora.getQuartaAula());
+
+        c.setTime(new Date());
+
+        Integer diaSemana = c.get(Calendar.DAY_OF_WEEK);
+
+        if(diaSemana.equals(position + 2)){
+            viewHolder.badgeHoje.setVisibility(View.VISIBLE);
+        }
 
     }
 
