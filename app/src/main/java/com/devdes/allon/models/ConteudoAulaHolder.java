@@ -8,10 +8,12 @@ import com.devdes.allon.R;
 public class ConteudoAulaHolder extends RecyclerView.ViewHolder {
     final TextView data;
     final TextView conteudo;
+    final TextView falta;
 
     public ConteudoAulaHolder(View itemView) {
         super(itemView);
         data = itemView.findViewById(R.id.tvConteudoAulaData);
         conteudo = itemView.findViewById(R.id.tvConteudoAulaConteudo);
+        falta = itemView.findViewById(R.id.conteudoAulaFalta);
     }
 }

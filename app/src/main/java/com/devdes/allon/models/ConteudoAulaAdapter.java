@@ -33,9 +33,17 @@ public class ConteudoAulaAdapter extends RecyclerView.Adapter {
         String dataAula = conteudos.get(position).getData() + " | "
         + conteudos.get(position).getInicio() + " às "
         + conteudos.get(position).getTermino();
+        Integer falta = Integer.parseInt(conteudos.get(position).getFalta());
 
         viewHolder.data.setText(dataAula);
         viewHolder.conteudo.setText(conteudos.get(position).getConteudo());
+
+        if(falta != 0) {
+            viewHolder.falta.setVisibility(View.VISIBLE);
+            viewHolder.falta.setText(falta + " Faltas");
+        }
+
+
     }
 
     @Override
