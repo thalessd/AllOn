@@ -5,6 +5,8 @@ import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 
+import org.json.JSONObject;
+
 import java.text.Normalizer;
 import java.util.ArrayList;
 
@@ -28,6 +30,7 @@ public class AlunoOnlineApi {
     private final String URL_API_INFORMATIVOS = URL_API_USUARIO_RSA_AUTH + "/informativos";
     private final String URL_API_NOTAS = URL_API_USUARIO_RSA_AUTH + "/diario";
     private final String URL_API_HORARIO = URL_API_USUARIO_RSA_AUTH + "/horarioaula";
+    private final String URL_API_CONTEUDO_AULA = URL_API_USUARIO_RSA_AUTH + "/conteudoaula";
 
     // Client
     private OkHttpClient client;
@@ -405,6 +408,83 @@ public class AlunoOnlineApi {
         }
 
         return horarios;
+    }
+
+    public ArrayList<ConteudoAula> conteudoAula(ObjetosApi.RespostaLogin respostaLogin) {
+        String respJson;
+
+        JsonObject dadosReq;
+        JsonObject dadosRes;
+
+        JsonObject corpo;
+
+        JsonArray listaDisciplina;
+        JsonObject disciplina;
+
+        ConteudoAula.Conteudo conteudo;
+        ArrayList<ConteudoAula.Conteudo> conteudos;
+        ArrayList<ConteudoAula> conteudosAula;
+        JsonObject conteudoJson;
+
+        Nota nota;
+
+        ConteudoAula conteudoAula;
+
+
+
+        conteudosAula = new ArrayList<>();
+
+        dadosReq = new JsonObject();
+
+        dadosReq.add("token", respostaLogin.getToken());
+        dadosReq.add("identificador", respostaLogin.getIdentificador());
+
+        respJson = requestPost(URL_API_CONTEUDO_AULA, dadosReq.toString());
+
+        if (respJson == null) {
+            return null;
+        }
+
+        dadosRes = JsonObject.readFrom(respJson);
+
+        if (dadosRes.get("codigo").asInt() != 200) {
+            return null;
+        }
+
+        corpo = dadosRes.get("dado").asObject();
+
+        listaDisciplina = corpo.get("tabela").asArray();
+
+
+        for (JsonValue ld: listaDisciplina) {
+            conteudoAula = new ConteudoAula();
+
+            disciplina = ld.asObject();
+            conteudos = new ArrayList<>();
+
+
+            conteudoAula.setAula(disciplina.get("titulo").asString());
+            conteudoAula.setFalta(disciplina.get("quantidade_falta").asInt());
+
+            for (JsonValue c: disciplina.get("aula").asArray()) {
+                conteudoJson = c.asObject();
+                conteudo = new ConteudoAula.Conteudo();
+
+                conteudo.setData(conteudoJson.get("data").asString());
+                conteudo.setInicio(conteudoJson.get("inicio").asString());
+                conteudo.setTermino(conteudoJson.get("termino").asString());
+                conteudo.setConteudo(conteudoJson.get("conteudo").asString());
+                conteudo.setFalta(conteudoJson.get("falta").asString());
+
+                conteudos.add(conteudo);
+            }
+
+            conteudoAula.setConteudos(conteudos);
+
+            conteudosAula.add(conteudoAula);
+        }
+
+        return conteudosAula;
     }
 
 
