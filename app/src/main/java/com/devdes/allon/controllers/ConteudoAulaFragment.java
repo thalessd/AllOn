@@ -100,12 +100,15 @@ public class ConteudoAulaFragment extends Fragment {
                 android.R.layout.simple_list_item_1, listaDisciplina);
 
         Spinner sConteudoAula = view.findViewById(R.id.sConteudoAula);
+        final TextView rvTotFalta = view.findViewById(R.id.tvTotFalta);
 
         sConteudoAula.setAdapter(adapter);
 
         sConteudoAula.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                rvTotFalta.setText("Total de Faltas: " + conteudoAulas.get(i).getFalta());
                 atualizaListaConteudo(conteudoAulas.get(i).getConteudos());
             }
 
@@ -151,11 +154,14 @@ public class ConteudoAulaFragment extends Fragment {
 
     private void atualizaListaConteudo(ArrayList<ConteudoAula.Conteudo> conteudos) {
         RecyclerView rvConteudoAula = view.findViewById(R.id.rvConteudoAula);
+
         RecyclerView.LayoutManager layout = new LinearLayoutManager(
                 view.getContext(),
                 LinearLayoutManager.VERTICAL,
                 false
         );
+
+
 
         rvConteudoAula.setAdapter(new ConteudoAulaAdapter(conteudos, view.getContext()));
         rvConteudoAula.setLayoutManager(layout);
